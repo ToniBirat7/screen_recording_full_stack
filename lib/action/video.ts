@@ -164,6 +164,6 @@ export const getAllVideos = withErrorHandling(
     searchQuery: string = "",
     sortFilter?: string,
     pageNumber: number = 1,
-    pageSize: number = 1
+    pageSize: number = 8 // 8 Videos per page
   ) => {}
 );
