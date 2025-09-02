@@ -173,10 +173,10 @@ export const getAllVideos = withErrorHandling(
     });
     const userId = session?.user.id;
 
-    // Fetch the all the public video in the DB and private videos of the current user
-    const visibilityCondition = or(
-      eq(videos.visibility, "public"),
-      eq(videos.userId, userId!)
+    // SQL Expression to fetch public or private videos
+    const canSeeTheVideos = or(
+      eq(videos.visibility, "public"), // Public
+      eq(videos.userId, userId!) // Private
     );
   }
 );
