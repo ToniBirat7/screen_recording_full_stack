@@ -9,6 +9,7 @@ import { videos } from "@/drizzle/schema";
 import { revalidatePath } from "next/cache";
 import aj from "@/arcjet";
 import { fixedWindow, request } from "@arcjet/next";
+import { eq, or } from "drizzle-orm";
 
 // Keys and Links
 const VIDEO_STREAM_BASE_URL = BUNNY.STREAM_BASE_URL;
@@ -171,5 +172,11 @@ export const getAllVideos = withErrorHandling(
       headers: await headers(),
     });
     const userId = session?.user.id;
+
+    // Fetch the all the public video in the DB and private videos of the current user
+    const visibilityCondition = or(
+      eq(videos.visibility, "public"),
+      eq(videos.userId, userId!)
+    );
   }
 );
