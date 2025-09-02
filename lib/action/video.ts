@@ -197,6 +197,12 @@ export const getAllVideos = withErrorHandling(
       .from(videos)
       .where(whereCondition);
 
-    console.log(`Total Count : ${totalCount}`);
+    console.log(`Total Video Count : ${totalCount}`);
+
+    // Convert the totalCount to Number
+    const totalVideos = Number(totalCount || 0);
+
+    // Calculate the total pages for pagination
+    const totalPages = Math.ceil(totalVideos / pageSize);
   }
 );
