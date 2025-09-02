@@ -9,7 +9,7 @@ import { videos } from "@/drizzle/schema";
 import { revalidatePath } from "next/cache";
 import aj from "@/arcjet";
 import { fixedWindow, request } from "@arcjet/next";
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, or, sql } from "drizzle-orm";
 
 // Keys and Links
 const VIDEO_STREAM_BASE_URL = BUNNY.STREAM_BASE_URL;
@@ -179,7 +179,7 @@ export const getAllVideos = withErrorHandling(
       eq(videos.userId, userId!) // Private
     );
 
-    // SQL Expression to search by title 
+    // SQL Expression to search by title and visibility
     const whereCondition = searchQuery.trim()
       ? and(
           // Attach the canSeeTheVideo
@@ -187,5 +187,16 @@ export const getAllVideos = withErrorHandling(
           doesTitleMatch(videos, searchQuery)
         )
       : canSeeTheVideos;
+
+    // Get total number of video counts to manage pagination, actually querying the Database with the generated SQL expression
+
+    const [{ totalCount }] = await db
+      .select({
+        totalCount: sql<number>`count(*)`,
+      })
+      .from(videos)
+      .where(whereCondition);
+
+    console.log(`Total Count : ${totalCount}`);
   }
 );
