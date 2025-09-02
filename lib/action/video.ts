@@ -161,9 +161,9 @@ export const saveVideoDetails = withErrorHandling(
 // Fecth all the metadata for all the videos of user
 export const getAllVideos = withErrorHandling(
   async (
-    searchQuery: string = "",
+    searchQuery: string = "", // Query String for Search
     sortFilter?: string,
-    pageNumber: number = 1,
+    pageNumber: number = 1, // Page Numb for Pagination
     pageSize: number = 8 // 8 Videos per page
   ) => {}
 );
