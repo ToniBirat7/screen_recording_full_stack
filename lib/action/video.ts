@@ -2,14 +2,14 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth";
-import { apiFetch, withErrorHandling, getEnv } from "../utils";
+import { apiFetch, withErrorHandling, getEnv, doesTitleMatch } from "../utils";
 import { BUNNY } from "@/constants";
 import { db } from "@/drizzle/db";
 import { videos } from "@/drizzle/schema";
 import { revalidatePath } from "next/cache";
 import aj from "@/arcjet";
 import { fixedWindow, request } from "@arcjet/next";
-import { eq, or } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 
 // Keys and Links
 const VIDEO_STREAM_BASE_URL = BUNNY.STREAM_BASE_URL;
@@ -178,5 +178,14 @@ export const getAllVideos = withErrorHandling(
       eq(videos.visibility, "public"), // Public
       eq(videos.userId, userId!) // Private
     );
+
+    // SQL Expression to search by title
+    const whereCondition = searchQuery.trim()
+      ? and(
+          // Attach the canSeeTheVideo
+          canSeeTheVideos,
+          doesTitleMatch(videos, searchQuery)
+        )
+      : canSeeTheVideos;
   }
 );
