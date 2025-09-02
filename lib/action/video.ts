@@ -165,5 +165,11 @@ export const getAllVideos = withErrorHandling(
     sortFilter?: string,
     pageNumber: number = 1, // Page Numb for Pagination
     pageSize: number = 8 // 8 Videos per page
-  ) => {}
+  ) => {
+    // Get Current User Id
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    const userId = session?.user.id;
+  }
 );
