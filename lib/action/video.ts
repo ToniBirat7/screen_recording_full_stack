@@ -179,7 +179,7 @@ export const getAllVideos = withErrorHandling(
       eq(videos.userId, userId!) // Private
     );
 
-    // SQL Expression to search by title
+    // SQL Expression to search by title 
     const whereCondition = searchQuery.trim()
       ? and(
           // Attach the canSeeTheVideo
