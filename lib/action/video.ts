@@ -157,3 +157,13 @@ export const saveVideoDetails = withErrorHandling(
     };
   }
 );
+
+// Fecth all the metadata for all the videos of user
+export const getAllVideos = withErrorHandling(
+  async (
+    searchQuery: string = "",
+    sortFilter?: string,
+    pageNumber: number = 1,
+    pageSize: number = 1
+  ) => {}
+);
