@@ -203,5 +203,8 @@ export const getAllVideos = withErrorHandling(
 
     // Calculate the total pages for pagination
     const totalPages = Math.ceil(totalVideos / pageSize);
+
+    // Get Sorted Paginated Videos from Database
+    const videoRecords = await buildVideoWithUserQuery();
   }
 );
