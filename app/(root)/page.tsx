@@ -23,7 +23,18 @@ const Page = async ({ searchParams }: SearchParams) => {
       {/* Dummy Video Card */}
 
       {/* Display all the videos with Video and User Metadata */}
-      {}
+      {
+        // Check if video length is valid
+        videos?.length > 0 ? (
+          <section className="video-grid">
+            {videos.map((_, item) => (
+              <p>{video.}</p>
+            ))}
+          </section>
+        ) : (
+          <div>EMPTY</div>
+        )
+      }
     </main>
   );
 };
