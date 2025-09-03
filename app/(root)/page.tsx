@@ -20,8 +20,6 @@ const Page = async ({ searchParams }: SearchParams) => {
       <Header title="All Video" subHeader="Public Library" />
       <h1 className="text-2xl font-karla">Welcome to Loom Clone</h1>
 
-      {/* Dummy Video Card */}
-
       {/* Display all the videos with Video and User Metadata */}
       {
         // Check if video length is valid
