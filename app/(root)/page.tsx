@@ -3,7 +3,9 @@ import VideoCard from "@/components/VideoCard";
 import { dummyCards } from "@/constants";
 import React from "react";
 
-const Page = () => {
+const Page = async ({ searchParams }: SearchParams) => {
+  // Destructure the SeachParams
+  const { query, filter, page } = await searchParams;
   return (
     <main className="wrapper page">
       <Header title="All Video" subHeader="Public Library" />
