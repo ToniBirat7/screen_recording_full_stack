@@ -18,6 +18,8 @@ const Page = async ({ searchParams }: SearchParams) => {
   console.log(`Videos`);
   console.log(videos);
 
+  query ? console.log(query) : console.log(false);
+
   return (
     <main className="wrapper page">
       <Header title="All Video" subHeader="Public Library" />
