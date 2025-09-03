@@ -5,7 +5,7 @@ import { auth } from "../auth";
 import { apiFetch, withErrorHandling, getEnv, doesTitleMatch } from "../utils";
 import { BUNNY } from "@/constants";
 import { db } from "@/drizzle/db";
-import { videos } from "@/drizzle/schema";
+import { user, videos } from "@/drizzle/schema";
 import { revalidatePath } from "next/cache";
 import aj from "@/arcjet";
 import { fixedWindow, request } from "@arcjet/next";
@@ -61,6 +61,21 @@ const validateWithArcjet = async (fingerprint: string) => {
   if (decision.isDenied()) {
     throw new Error("Rate Limit Exceeded");
   }
+};
+
+// Helper function to fetch video metadata along with respective users
+const buildVideoWithUserQuery = async () => {
+  return db
+    .select({
+      video: videos,
+      user: {
+        id: user.id,
+        name: user.name,
+        image: user.image,
+      },
+    })
+    .from(videos)
+    .leftJoin(user, eq(videos.userId, user.id));
 };
 
 // Server Actions
