@@ -184,7 +184,7 @@ export const saveVideoDetails = withErrorHandling(
 export const getAllVideos = withErrorHandling(
   async (
     searchQuery: string = "", // Query String for Search
-    sortFilter?: string,
+    sortFilter?: string, // Filter for video type (most viwed, less viwed)
     pageNumber: number = 1, // Page Numb for Pagination
     pageSize: number = 8 // 8 Videos per page
   ) => {
@@ -234,6 +234,6 @@ export const getAllVideos = withErrorHandling(
           : sql`${videos.createdAt} DESC`
       )
       .limit(pageSize)
-      .offset((pageNumber - 1) * pageSize);
+      .offset((pageNumber - 1) * pageSize); // If we're on 3rd page then there should be 16 items as perPage is 8.
   }
 );
