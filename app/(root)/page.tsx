@@ -15,6 +15,9 @@ const Page = async ({ searchParams }: SearchParams) => {
     Number(page) || 1
   );
 
+  console.log(`Videos`);
+  console.log(videos);
+
   return (
     <main className="wrapper page">
       <Header title="All Video" subHeader="Public Library" />
@@ -26,7 +29,7 @@ const Page = async ({ searchParams }: SearchParams) => {
         videos?.length > 0 ? (
           <section className="video-grid">
             {videos.map((_, item) => (
-              <p>{}</p>
+              <p></p>
             ))}
           </section>
         ) : (
