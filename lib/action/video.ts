@@ -235,5 +235,16 @@ export const getAllVideos = withErrorHandling(
       )
       .limit(pageSize)
       .offset((pageNumber - 1) * pageSize); // If we're on 3rd page then there should be 16 items as perPage is 8.
+
+    // Return the videoRecords array of Object
+    return {
+      videos: videoRecords,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages,
+        totalVideos,
+        pageSize,
+      },
+    };
   }
 );
