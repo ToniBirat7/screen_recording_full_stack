@@ -2,7 +2,13 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth";
-import { apiFetch, withErrorHandling, getEnv, doesTitleMatch } from "../utils";
+import {
+  apiFetch,
+  withErrorHandling,
+  getEnv,
+  doesTitleMatch,
+  getOrderByClause,
+} from "../utils";
 import { BUNNY } from "@/constants";
 import { db } from "@/drizzle/db";
 import { user, videos } from "@/drizzle/schema";
@@ -64,7 +70,7 @@ const validateWithArcjet = async (fingerprint: string) => {
 };
 
 // Helper function to fetch video metadata along with respective users
-const buildVideoWithUserQuery = async () => {
+const buildVideoWithUserQuery = () => {
   return db
     .select({
       video: videos,
@@ -220,6 +226,14 @@ export const getAllVideos = withErrorHandling(
     const totalPages = Math.ceil(totalVideos / pageSize);
 
     // Get Sorted Paginated Videos from Database
-    const videoRecords = await buildVideoWithUserQuery();
+    const videoRecords = await buildVideoWithUserQuery()
+      .where(whereCondition)
+      .orderBy(
+        sortFilter
+          ? getOrderByClause(sortFilter)
+          : sql`${videos.createdAt} DESC`
+      )
+      .limit(pageSize)
+      .offset((pageNumber - 1) * pageSize);
   }
 );
