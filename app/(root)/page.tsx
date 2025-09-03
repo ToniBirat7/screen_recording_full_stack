@@ -28,7 +28,7 @@ const Page = async ({ searchParams }: SearchParams) => {
         videos?.length > 0 ? (
           <section className="video-grid">
             {videos.map((_, item) => (
-              <p>{video.}</p>
+              <p>{item}</p>
             ))}
           </section>
         ) : (
