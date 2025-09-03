@@ -189,7 +189,6 @@ export const getAllVideos = withErrorHandling(
       : canSeeTheVideos;
 
     // Get total number of video counts to manage pagination, actually querying the Database with the generated SQL expression
-
     const [{ totalCount }] = await db
       .select({
         totalCount: sql<number>`count(*)`,
