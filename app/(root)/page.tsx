@@ -39,7 +39,7 @@ const Page = async ({ searchParams }: SearchParams) => {
                 key={video.id}
                 {...video}
                 duration={video.duration ?? undefined}
-                thumbnail={video.thumbnailUrl}
+                thumbnail="https://cloudinary-marketing-res.cloudinary.com/image/upload/w_1000/q_auto/f_auto/landmannalaugar_iceland.jpg"
                 userImg={user?.image || ""}
                 username={user?.name || "Guest"}
               />

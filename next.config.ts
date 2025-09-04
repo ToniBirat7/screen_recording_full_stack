@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**", // Google OAuth profile pics
       },
+      {
+        protocol: "https",
+        hostname: "cloudinary-marketing-res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
 };
