@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "snapcast.b-cdn.net",
         port: "",
-        pathname: "/**", // allow all paths
+        pathname: "/thumbnails/**", // allow all paths
       },
       {
         protocol: "https",
