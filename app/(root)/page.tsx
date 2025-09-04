@@ -31,8 +31,15 @@ const Page = async ({ searchParams }: SearchParams) => {
         // Check if video length is valid
         videos?.length > 0 ? (
           <section className="video-grid">
-            {videos.map((item, _) => (
-              <p>{item.video.id}</p>
+            {videos.map(({ video, user }) => (
+              <VideoCard
+                key={video.id}
+                {...video}
+                duration={video.duration ?? undefined}
+                thumbnail={video.thumbnailUrl}
+                userImg={user?.image || ""}
+                username={user?.name || "Guest"}
+              />
             ))}
           </section>
         ) : (
