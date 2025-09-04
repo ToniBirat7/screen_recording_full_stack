@@ -1,3 +1,4 @@
+import EmptyState from "@/components/EmptyState";
 import Header from "@/components/Header";
 import VideoCard from "@/components/VideoCard";
 import { dummyCards } from "@/constants";
@@ -35,7 +36,11 @@ const Page = async ({ searchParams }: SearchParams) => {
             ))}
           </section>
         ) : (
-          <div>EMPTY</div>
+          <EmptyState
+            icon="/assets/icons/video.svg"
+            title="No Videos Found"
+            description="Try adjusting your search"
+          ></EmptyState>
         )
       }
     </main>
