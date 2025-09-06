@@ -9,7 +9,7 @@ const page = async ({ params }: Params) => {
   console.log("Video Id", id);
 
   // get videoId and UserId
-  const { user, video } = await getVideoById(id);
+  const { user, video } = await getVideoById(id); // Get The Video By Id in the DB
 
   console.log("Func", await getVideoById(id));
 
@@ -21,10 +21,10 @@ const page = async ({ params }: Params) => {
 
   return (
     <main className="wrapper page">
-      <h1 className="text-2xl">{video.title}</h1>
+      <h1 className="text-2xl">{video.videoId}</h1>
       <section className="video-details">
         <div className="content">
-          <VideoPlayer videoId={id}></VideoPlayer>
+          <VideoPlayer videoId={video.videoId}></VideoPlayer>
         </div>
       </section>
     </main>
