@@ -16,6 +16,15 @@ const VideoDetailHeader = ({
   thumbnailUrl,
 }: VideoDetailHeaderProps) => {
   const router = useRouter();
+
+  // Handle Copy
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/video/${videoId}`);
+    console.log(
+      "Copied URL is : ",
+      `${window.location.origin}/video/${videoId}`
+    );
+  };
   return (
     <header className="detail-header">
       <aside className="user-info">
@@ -36,6 +45,16 @@ const VideoDetailHeader = ({
             <p>{daysAgo(createdAt)}</p>
           </figcaption>
         </figure>
+      </aside>
+      <aside className="cta">
+        <button onClick={handleCopyLink}>
+          <Image
+            src="/assets/icons/link.svg"
+            alt="copy"
+            width={24}
+            height={24}
+          />
+        </button>
       </aside>
     </header>
   );
