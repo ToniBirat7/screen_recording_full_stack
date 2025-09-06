@@ -21,7 +21,12 @@ const page = async ({ params }: Params) => {
 
   return (
     <main className="wrapper page">
-      <VideoPlayer videoId={id}></VideoPlayer>
+      <h1 className="text-2xl">{video.title}</h1>
+      <section className="video-details">
+        <div className="content">
+          <VideoPlayer videoId={id}></VideoPlayer>
+        </div>
+      </section>
     </main>
   );
 };
