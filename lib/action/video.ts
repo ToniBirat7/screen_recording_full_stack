@@ -248,3 +248,11 @@ export const getAllVideos = withErrorHandling(
     };
   }
 );
+
+// Fetch single video for Video Details Page
+export const getVideoById = withErrorHandling(async (videoId: string) => {
+  const [videoRecord] = await buildVideoWithUserQuery().where(
+    eq(videos.id, videoId)
+  );
+  return videoRecord;
+});
