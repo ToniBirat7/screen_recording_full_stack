@@ -3,7 +3,7 @@
 import { daysAgo } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const VideoDetailHeader = ({
   title,
@@ -16,6 +16,7 @@ const VideoDetailHeader = ({
   thumbnailUrl,
 }: VideoDetailHeaderProps) => {
   const router = useRouter();
+  const [copy, setCopy] = useState(false);
 
   // Handle Copy
   const handleCopyLink = () => {
@@ -24,7 +25,18 @@ const VideoDetailHeader = ({
       "Copied URL is : ",
       `${window.location.origin}/video/${videoId}`
     );
+    setCopy(true);
   };
+
+  // UseEffect to Change the Checked Logo After Sometime
+  useEffect(() => {
+    const changeChecked = setTimeout(() => {
+      if (copy) setCopy(false);
+    }, 2000); // After 2 Seconds
+
+    // CleanUp Timeout Function
+    return clearTimeout(changeChecked);
+  }, [copy]);
   return (
     <header className="detail-header">
       <aside className="user-info">
@@ -49,7 +61,7 @@ const VideoDetailHeader = ({
       <aside className="cta">
         <button onClick={handleCopyLink}>
           <Image
-            src="/assets/icons/link.svg"
+            src={copy ? "/assets/images/checked.png" : "/assets/icons/link.svg"}
             alt="copy"
             width={24}
             height={24}
