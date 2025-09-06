@@ -14,17 +14,15 @@ const VideoDetailHeader = ({
   ownerId,
   visibility,
   thumbnailUrl,
+  id,
 }: VideoDetailHeaderProps) => {
   const router = useRouter();
   const [copy, setCopy] = useState(false);
 
   // Handle Copy
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/video/${videoId}`);
-    console.log(
-      "Copied URL is : ",
-      `${window.location.origin}/video/${videoId}`
-    );
+    navigator.clipboard.writeText(`${window.location.origin}/video/${id}`);
+    console.log("Copied URL is : ", `${window.location.origin}/video/${id}`);
     setCopy(true);
   };
 
@@ -35,7 +33,7 @@ const VideoDetailHeader = ({
     }, 2000); // After 2 Seconds
 
     // CleanUp Timeout Function
-    return clearTimeout(changeChecked);
+    return () => clearTimeout(changeChecked);
   }, [copy]);
   return (
     <header className="detail-header">
