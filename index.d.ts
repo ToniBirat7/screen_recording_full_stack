@@ -211,16 +211,6 @@ declare interface UserWithVideos {
   count: number;
 }
 
-declare interface ExtendedMediaStream extends MediaStream {
-  _originalStreams?: MediaStream[];
-}
-
-declare interface SharedHeaderProps {
-  subHeader: string;
-  title: string;
-  userImg?: string;
-}
-
 declare interface SharedHeaderProps {
   subHeader: string;
   title: string;

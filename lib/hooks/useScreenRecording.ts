@@ -8,7 +8,9 @@ import {
   calculateRecordingDuration,
 } from "@/lib/utils";
 
+// Custom hook that encapsulates screen + audio recording logic
 export const useScreenRecording = () => {
+  // React state object for UI: whether recording, final blob/url, duration
   const [state, setState] = useState<BunnyRecordingState>({
     isRecording: false,
     recordedBlob: null,
@@ -16,22 +18,31 @@ export const useScreenRecording = () => {
     recordingDuration: 0,
   });
 
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const streamRef = useRef<ExtendedMediaStream | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const startTimeRef = useRef<number | null>(null);
+  // Refs hold mutable objects that persist across renders but don't cause re-renders
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null); // the MediaRecorder instance
+  const streamRef = useRef<ExtendedMediaStream | null>(null); // the combined MediaStream used by the recorder
+  const chunksRef = useRef<Blob[]>([]); // array to collect data available Blobs
+  const audioContextRef = useRef<AudioContext | null>(null); // WebAudio AudioContext (used to mix audio)
+  const startTimeRef = useRef<number | null>(null); // timestamp when recording started (for duration calculation)
 
+  // Cleanup effect: runs on unmount and when recordedVideoUrl changes
   useEffect(() => {
     return () => {
+      // Ensure any active recording stopped and resources freed on unmount
       stopRecording();
+      // Revoke the object URL to free memory if we created one
       if (state.recordedVideoUrl) URL.revokeObjectURL(state.recordedVideoUrl);
+      // Close the audio context if it exists (returns a Promise)
       audioContextRef.current?.close().catch(console.error);
     };
+    // NOTE: dependency on state.recordedVideoUrl makes this run if URL changes and on unmount
   }, [state.recordedVideoUrl]);
 
+  // Called when MediaRecorder stops — packages chunks into a blob/url and updates state
   const handleRecordingStop = () => {
+    // createRecordingBlob bundles chunks into a Blob and returns an object URL
     const { blob, url } = createRecordingBlob(chunksRef.current);
+    // Use system time to compute rough duration
     const duration = calculateRecordingDuration(startTimeRef.current);
 
     setState((prev) => ({
@@ -39,22 +50,29 @@ export const useScreenRecording = () => {
       recordedBlob: blob,
       recordedVideoUrl: url,
       recordingDuration: duration,
-      isRecording: false,
+      isRecording: false, // ensure UI reflects stopped status
     }));
   };
 
+  // Start a new recording. `withMic` controls whether we also request microphone.
   const startRecording = async (withMic = true) => {
     try {
+      // If something is already recording, stop/cleanup first
       stopRecording();
 
+      // Ask browser for display (and mic) streams
       const { displayStream, micStream, hasDisplayAudio } =
         await getMediaStreams(withMic);
+
+      // create an empty MediaStream that will contain the final tracks we feed into MediaRecorder
       const combinedStream = new MediaStream() as ExtendedMediaStream;
 
+      // Add video tracks from the display stream (this is the actual screen content)
       displayStream
         .getVideoTracks()
         .forEach((track: MediaStreamTrack) => combinedStream.addTrack(track));
 
+      // As we'll have two kinds of Audio Tracks i.e. Browser Tab and Microphone and we want only one track so that the audio becomes consistent throught the video therefore we'll have to mix these audio into single track
       audioContextRef.current = new AudioContext();
       const audioDestination = createAudioMixer(
         audioContextRef.current,
@@ -63,42 +81,56 @@ export const useScreenRecording = () => {
         hasDisplayAudio
       );
 
+      // The audioDestination is a MediaStreamAudioDestinationNode (it has a .stream with audio tracks).
+      // Add its audio tracks to the combined stream. That gives us a single, mixed audio track.
       audioDestination?.stream
         .getAudioTracks()
         .forEach((track: MediaStreamTrack) => combinedStream.addTrack(track));
 
+      // Save original streams for later cleanup. This is a custom property on the stream.
       combinedStream._originalStreams = [
         displayStream,
         ...(micStream ? [micStream] : []),
       ];
       streamRef.current = combinedStream;
 
+      // Create media recorder and attach handlers.
       mediaRecorderRef.current = setupRecording(combinedStream, {
         onDataAvailable: (e) => e.data.size && chunksRef.current.push(e.data),
         onStop: handleRecordingStop,
       });
 
+      // Reset chunk buffer and start timer
       chunksRef.current = [];
       startTimeRef.current = Date.now();
+
+      // Start the recorder; pass a timeslice of 1000ms to receive periodic dataavailable events
       mediaRecorderRef.current.start(1000);
+
+      // Update UI state
       setState((prev) => ({ ...prev, isRecording: true }));
       return true;
     } catch (error) {
+      // If any step fails (permission denied, etc.), log and return false
       console.error("Recording error:", error);
       return false;
     }
   };
 
+  // Stop Recording and free resources
   const stopRecording = () => {
     cleanupRecording(
       mediaRecorderRef.current,
       streamRef.current,
       streamRef.current?._originalStreams
     );
+    // Clear ref to combined stream
     streamRef.current = null;
+    // Set UI state to reflect stopped (note: handleRecordingStop will set the recorded blob/url)
     setState((prev) => ({ ...prev, isRecording: false }));
   };
 
+  // Reset clears recorded data and revokes URLs
   const resetRecording = () => {
     stopRecording();
     if (state.recordedVideoUrl) URL.revokeObjectURL(state.recordedVideoUrl);
@@ -111,6 +143,7 @@ export const useScreenRecording = () => {
     startTimeRef.current = null;
   };
 
+  // Export state and controls
   return {
     ...state,
     startRecording,

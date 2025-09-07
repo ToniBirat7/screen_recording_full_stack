@@ -41,6 +41,13 @@ export const DEFAULT_VIDEO_CONFIG = {
   frameRate: { ideal: 30 },
 };
 
+export const DEFAULT_AUDIO_CONFIG = {
+  echoCancellation: true,
+  noiseSuppression: true,
+  sampleRate: 44100,
+  suppressLocalAudioPlayback: true,
+};
+
 export const DEFAULT_RECORDING_CONFIG = {
   mimeType: "video/webm;codecs=vp9,opus",
   audioBitsPerSecond: 128000,

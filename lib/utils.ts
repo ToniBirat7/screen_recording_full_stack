@@ -2,7 +2,11 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ilike, sql } from "drizzle-orm";
 import { videos } from "@/drizzle/schema";
-import { DEFAULT_VIDEO_CONFIG, DEFAULT_RECORDING_CONFIG } from "@/constants";
+import {
+  DEFAULT_VIDEO_CONFIG,
+  DEFAULT_RECORDING_CONFIG,
+  DEFAULT_AUDIO_CONFIG,
+} from "@/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -150,19 +154,25 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
+// Get the MediaStream from MediaDevices API
 export const getMediaStreams = async (
   withMic: boolean
 ): Promise<MediaStreams> => {
+  // Store the MediaStram Object, that contains the selected media type
   const displayStream = await navigator.mediaDevices.getDisplayMedia({
-    video: DEFAULT_VIDEO_CONFIG,
-    audio: true,
+    video: DEFAULT_VIDEO_CONFIG, // Video Details (Res, Fps)
+    audio: DEFAULT_AUDIO_CONFIG, // Audio Configs for the video
   });
 
-  const hasDisplayAudio = displayStream.getAudioTracks().length > 0;
+  const hasDisplayAudio = displayStream.getAudioTracks().length > 0; // Get the list of Audio Tracks from MediaStream Object
   let micStream: MediaStream | null = null;
 
+  // If user wants to record with audio
   if (withMic) {
+    // Prompts the user for permission to use "audio" stream, if resolve returns the MediaStram for that Media
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    // After Resolve,
     micStream
       .getAudioTracks()
       .forEach((track: MediaStreamTrack) => (track.enabled = true));
