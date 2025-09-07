@@ -20,7 +20,7 @@ export const useScreenRecording = () => {
 
   // Refs hold mutable objects that persist across renders but don't cause re-renders
   const mediaRecorderRef = useRef<MediaRecorder | null>(null); // the MediaRecorder instance
-  const streamRef = useRef<ExtendedMediaStream | null>(null); // the combined MediaStream used by the recorder
+  const streamRef = useRef<ExtendedMediaStream | null>(null); // the combined MediaStream used by the recorder, single mixed audio from multiple streams
   const chunksRef = useRef<Blob[]>([]); // array to collect data available Blobs
   const audioContextRef = useRef<AudioContext | null>(null); // WebAudio AudioContext (used to mix audio)
   const startTimeRef = useRef<number | null>(null); // timestamp when recording started (for duration calculation)
@@ -87,12 +87,13 @@ export const useScreenRecording = () => {
         .getAudioTracks()
         .forEach((track: MediaStreamTrack) => combinedStream.addTrack(track));
 
+      // We lose some info after mixing, but incase if we need the two separate tracks in the future, for that we save the original streams
       // Save original streams for later cleanup. This is a custom property on the stream.
       combinedStream._originalStreams = [
         displayStream,
         ...(micStream ? [micStream] : []),
       ];
-      streamRef.current = combinedStream;
+      streamRef.current = combinedStream; // Save the combinedstream into StreamRef
 
       // Create media recorder and attach handlers.
       mediaRecorderRef.current = setupRecording(combinedStream, {
