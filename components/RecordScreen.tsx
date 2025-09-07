@@ -25,7 +25,28 @@ const RecordScreen = () => {
       {/* onClick Record Button */}
       {isOpen && (
         <section className="dialog">
-          <div className="overlay-record" onClick={closeOverlay}></div>
+          <div className="overlay-record" onClick={closeOverlay} />
+          {/* Close Btn */}
+          <div className="dialog-content">
+            <figure>
+              <h3>Screen Recording</h3>
+              <button onClick={closeOverlay}>
+                <Image
+                  src={ICONS.close}
+                  alt="Close"
+                  width={20}
+                  height={20}
+                ></Image>
+              </button>
+            </figure>
+            {/* Start Recording Button */}
+            <section>
+              {/* If the Recording is in Progress */}
+              {/* If we've a Recorded Video Show Video */}
+              {/* If there is no Recording display Record Button */}
+              {/* If the Recording is in Progress then Display Stop Recording */}
+            </section>
+          </div>
         </section>
       )}
     </div>
