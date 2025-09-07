@@ -197,8 +197,8 @@ export const createAudioMixer = (
     source.connect(gain).connect(destination);
   };
 
-  if (hasDisplayAudio) mix(displayStream, 0.7);
-  if (micStream) mix(micStream, 1.5);
+  if (hasDisplayAudio) mix(displayStream, 0.7); // Reduces volume to 70%
+  if (micStream) mix(micStream, 1.5); // Multiplies by 1.5
 
   return destination;
 };
