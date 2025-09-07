@@ -95,13 +95,13 @@ export const useScreenRecording = () => {
       ];
       streamRef.current = combinedStream; // Save the combinedstream into StreamRef
 
-      // Create media recorder and attach handlers.
+      // Create media recorder and attach handlers for future blob events
       mediaRecorderRef.current = setupRecording(combinedStream, {
         onDataAvailable: (e) => e.data.size && chunksRef.current.push(e.data),
         onStop: handleRecordingStop,
       });
 
-      // Reset chunk buffer and start timer
+      // Reset chunk buffers if any from past and set the start time
       chunksRef.current = [];
       startTimeRef.current = Date.now();
 
