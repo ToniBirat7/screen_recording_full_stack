@@ -158,7 +158,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 export const getMediaStreams = async (
   withMic: boolean
 ): Promise<MediaStreams> => {
-  // Store the MediaStram Object, that contains the selected media type, will display a pop to choose tab with audio or not, if resolved then returns MediaStream
+  // Store the MediaStram Object, that contains the selected media type, will display a pop to choose tab with audio or not, if resolved then returns MediaStream for Screen and Audio Track
   const displayStream = await navigator.mediaDevices.getDisplayMedia({
     video: DEFAULT_VIDEO_CONFIG, // Video Details (Res, Fps)
     audio: DEFAULT_AUDIO_CONFIG, // Audio Configs for the video
@@ -178,7 +178,7 @@ export const getMediaStreams = async (
       .forEach((track: MediaStreamTrack) => (track.enabled = true));
   }
 
-  return { displayStream, micStream, hasDisplayAudio };
+  return { displayStream, micStream, hasDisplayAudio }; // These are live streams not files, They continuously deliver frames/samples
 };
 
 export const createAudioMixer = (
