@@ -64,7 +64,7 @@ export const useScreenRecording = () => {
       const { displayStream, micStream, hasDisplayAudio } =
         await getMediaStreams(withMic);
 
-      // create an empty MediaStream that will contain the final tracks we feed into MediaRecorder
+      // create an empty MediaStream that will contain the final video and single audio track that we feed into MediaRecorder
       const combinedStream = new MediaStream() as ExtendedMediaStream;
 
       // Add video tracks from the display stream (this is the actual screen content)
@@ -93,11 +93,20 @@ export const useScreenRecording = () => {
         displayStream,
         ...(micStream ? [micStream] : []),
       ];
+      // Assign the StreamRef to the combinedStream
       streamRef.current = combinedStream; // Save the combinedstream into StreamRef
+
+      // Logger to check what's being recorded
+      console.log(
+        "combinedStream tracks:",
+        combinedStream
+          .getTracks()
+          .map((t) => ({ kind: t.kind, label: t.label, id: t.id }))
+      );
 
       // Create media recorder and attach handlers for future blob events
       mediaRecorderRef.current = setupRecording(combinedStream, {
-        onDataAvailable: (e) => e.data.size && chunksRef.current.push(e.data),
+        onDataAvailable: (e) => e.data.size && chunksRef.current.push(e.data), // Push the Raw Frames -> Encoded Frames -> Playableformat -> Blob into the chunkRef Array
         onStop: handleRecordingStop,
       });
 
