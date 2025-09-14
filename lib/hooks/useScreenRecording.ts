@@ -27,6 +27,7 @@ export const useScreenRecording = () => {
 
   // Cleanup effect: runs on unmount and when recordedVideoUrl changes
   useEffect(() => {
+    // Clean Up
     return () => {
       // Ensure any active recording stopped and resources freed on unmount
       stopRecording();
