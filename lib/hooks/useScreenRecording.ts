@@ -14,7 +14,7 @@ export const useScreenRecording = () => {
   const [state, setState] = useState<BunnyRecordingState>({
     isRecording: false,
     recordedBlob: null,
-    recordedVideoUrl: "",
+    recordedVideoUrl: "", // Blob URL
     recordingDuration: 0,
   });
 
