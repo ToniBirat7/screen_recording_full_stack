@@ -13,8 +13,8 @@ export const useScreenRecording = () => {
   // React state object for UI: whether recording, final blob/url, duration
   const [state, setState] = useState<BunnyRecordingState>({
     isRecording: false,
-    recordedBlob: null,
-    recordedVideoUrl: "", // Blob URL
+    recordedBlob: null, // Final Blob
+    recordedVideoUrl: "", // Blob URL for Video Element Source
     recordingDuration: 0,
   });
 
