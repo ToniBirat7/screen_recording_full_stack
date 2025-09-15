@@ -46,6 +46,11 @@ const RecordScreen = () => {
     }
   };
 
+  // Handle Upload
+  const goToUpload = () => {
+    
+  };
+
   return (
     <div className="record">
       <button className="primary-btn" onClick={() => setIsOpen(true)}>
@@ -57,7 +62,9 @@ const RecordScreen = () => {
       {isOpen && (
         <section className="dialog">
           <div className="overlay-record" onClick={closeOverlay} />
+
           {/* Close Btn */}
+
           <div className="dialog-content">
             <figure>
               <h3>Screen Recording</h3>
@@ -70,7 +77,9 @@ const RecordScreen = () => {
                 ></Image>
               </button>
             </figure>
+
             {/* Start Recording Button */}
+
             <section>
               {/* If the Recording is in Progress */}
               {/* If we've a Recorded Video Show Video */}
@@ -84,9 +93,10 @@ const RecordScreen = () => {
               ) : (
                 <p>Click record to start capturing your screen</p>
               )}
-              {/* If the Recording is in Progress then Display Stop Recording */}
             </section>
+
             {/* If there is no Recording display Record Button */}
+
             <div className="record-box">
               {!isRecording && !recordedVideoUrl && (
                 <button onClick={handleStart} className="record-start">
@@ -98,6 +108,40 @@ const RecordScreen = () => {
                   ></Image>
                   Record
                 </button>
+              )}
+
+              {/* If the Recording is in Progress then Display Stop Recording */}
+
+              {isRecording && (
+                <button onClick={stopRecording}>
+                  <Image
+                    src={ICONS.record}
+                    alt="record"
+                    height={16}
+                    width={16}
+                  ></Image>
+                  Stop Recording
+                </button>
+              )}
+
+              {/* If we've recorded the video */}
+              {recordedVideoUrl && (
+                <>
+                  {/* Rerecord button */}
+                  <button onClick={recordAgain} className="record-again">
+                    Record Again
+                  </button>
+                  {/* Upload the recorded video */}
+                  <button onClick={goToUpload}>
+                    <Image
+                      src={ICONS.upload}
+                      alt="upload"
+                      width={16}
+                      height={16}
+                    ></Image>
+                    Continue to Upload
+                  </button>
+                </>
               )}
             </div>
           </div>
