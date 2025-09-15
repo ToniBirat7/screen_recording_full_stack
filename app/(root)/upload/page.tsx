@@ -64,6 +64,8 @@ const page = () => {
         console.error(e, "Error loading recorded video");
       }
     };
+
+    checkForRecordedVideo();
   }, [video]);
 
   // Router for Navigation
