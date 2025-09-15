@@ -41,7 +41,10 @@ const RecordScreen = () => {
     resetRecording();
     await startRecording();
 
+    // When we reset the recording all the refs are null
+    // Again when we start the recording we'll have a ref and we need to attach the src to the video element which is being refereced by videoRef
     if (recordedVideoUrl && videoRef.current) {
+      // In the source of the video element we attach the new recordedVideoUrl
       videoRef.current.src = recordedVideoUrl;
     }
   };
@@ -133,7 +136,7 @@ const RecordScreen = () => {
               {/* If the Recording is in Progress then Display Stop Recording */}
 
               {isRecording && (
-                <button onClick={stopRecording}>
+                <button onClick={stopRecording} className="record-stop">
                   <Image
                     src={ICONS.record}
                     alt="record"
@@ -152,7 +155,7 @@ const RecordScreen = () => {
                     Record Again
                   </button>
                   {/* Upload the recorded video */}
-                  <button onClick={goToUpload}>
+                  <button onClick={goToUpload} className="record-upload">
                     <Image
                       src={ICONS.upload}
                       alt="upload"
