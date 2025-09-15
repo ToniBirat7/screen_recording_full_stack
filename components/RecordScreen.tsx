@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { ICONS } from "@/constants";
 import { useRouter } from "next/navigation";
+import { useScreenRecording } from "@/lib/hooks/useScreenRecording";
 
 const RecordScreen = () => {
   const router = useRouter(); // Route after recording
@@ -12,9 +13,23 @@ const RecordScreen = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null); // Reference for the Video that is being recorded
 
+  // Overlay for closing
   const closeOverlay = () => {
+    // If we close the overlay we need to reset the recording
+    resetRecording();
     setIsOpen(false);
   };
+
+  // useScreenRecordingHook
+  const {
+    resetRecording,
+    stopRecording,
+    startRecording,
+    isRecording,
+    recordedBlob,
+    recordedVideoUrl,
+    recordingDuration,
+  } = useScreenRecording();
 
   return (
     <div className="record">
