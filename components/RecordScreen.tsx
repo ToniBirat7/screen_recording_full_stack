@@ -48,7 +48,24 @@ const RecordScreen = () => {
 
   // Handle Upload
   const goToUpload = () => {
-    
+    if (!recordedVideoUrl) return;
+    // We've to created the ObjectURL because when we stop the recording the useEffect would revoke the ObjectURL
+    // To take the blob to our upload page we can create another ref to the blob and pass that URL in the upload so that we can upload the video
+
+    if (recordedBlob) {
+      const url = URL.createObjectURL(recordedBlob);
+      // Store the url in the browsers session so that we can access later
+      sessionStorage.setItem(
+        "recordedVideoURL",
+        JSON.stringify({
+          url,
+          name: "screen-recording.webm",
+          type: recordedBlob?.type,
+          size: recordedBlob?.size,
+          duration: recordingDuration || 0,
+        })
+      );
+    }
   };
 
   return (
