@@ -73,6 +73,16 @@ const RecordScreen = () => {
             {/* Start Recording Button */}
             <section>
               {/* If the Recording is in Progress */}
+              {isRecording ? (
+                <article>
+                  <div className=""></div>
+                  <span>Recording in Progress</span>
+                </article>
+              ) : recordedVideoUrl ? (
+                <video ref={videoRef} src={recordedVideoUrl} controls></video>
+              ) : (
+                <p>Click record to start capturing your screen</p>
+              )}
               {/* If we've a Recorded Video Show Video */}
               {/* If there is no Recording display Record Button */}
               {/* If the Recording is in Progress then Display Stop Recording */}
