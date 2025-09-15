@@ -37,17 +37,23 @@ const page = () => {
   useEffect(() => {
     const checkForRecordedVideo = async () => {
       try {
+        // Get Blob Url
         const blobUrl = sessionStorage.getItem("recordedVideoURL");
         if (!blobUrl) return;
 
         const { url, name, type, duration } = JSON.parse(blobUrl);
+
+        // Fetch Blob from Blob registry
         const blob = await fetch(url).then((res) => res.blob());
+
+        // Wrap the blob into a File
         const file = new File([blob], name, { type, lastModified: Date.now() });
 
         if (video.inputRef.current) {
+          // To create an instance of FileList for the type=file for input element we need DataTransfer
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(file);
-          video.inputRef.current.files = dataTransfer.files;
+          video.inputRef.current.files = dataTransfer.files; // Attach the
 
           const event = new Event("change", { bubbles: true });
           video.inputRef.current.dispatchEvent(event);
@@ -195,7 +201,7 @@ const page = () => {
 
       // 5. After Video Upload Change the Route to Specific Video Route
 
-      router.push(`/video/${videoID}`);
+      router.push("/");
 
       console.log("Pushed Router Change");
     } catch (error) {
