@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: SearchParams) => {
   console.log(videos);
 
   console.log("Thubnail URL");
-  console.log(videos[0].video.thumbnailUrl);
+  // console.log(videos[0].video.thumbnailUrl);
 
   query ? console.log(query) : console.log(false);
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import { ICONS } from "@/constants";
 
 interface VideoCardProps {
   id: string;
@@ -40,7 +41,7 @@ const VideoCard = ({
         <div className="">
           <figure>
             <Image
-              src={userImg}
+              src={userImg || "/assets/images/alex.png"}
               alt="avatar"
               width={34}
               height={34}
@@ -81,7 +82,9 @@ const VideoCard = ({
       </button>
 
       {duration && (
-        <div className="duration">{Math.ceil(duration / 60)} min</div>
+        <div className="duration">
+          Duration : {Math.ceil(duration / 60)} min
+        </div>
       )}
     </Link>
   );
