@@ -31,6 +31,11 @@ const RecordScreen = () => {
     recordingDuration,
   } = useScreenRecording();
 
+  // Handle Recording Start
+  const handleStart = async () => {
+    await startRecording();
+  };
+
   return (
     <div className="record">
       <button className="primary-btn" onClick={() => setIsOpen(true)}>
