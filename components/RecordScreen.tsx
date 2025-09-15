@@ -66,6 +66,9 @@ const RecordScreen = () => {
         })
       );
     }
+
+    // Push to the upload page
+    router.push("/upload");
   };
 
   return (

@@ -34,7 +34,11 @@ export const useScreenRecording = () => {
       // Revoke the object URL to free memory if we created one
       if (state.recordedVideoUrl) URL.revokeObjectURL(state.recordedVideoUrl);
       // Close the audio context if it exists (returns a Promise)
-      audioContextRef.current?.close().catch(console.error);
+      if (audioContextRef.current?.state !== "closed") {
+        audioContextRef.current?.close().catch(console.error);
+      }
+
+      audioContextRef.current = null;
     };
     // NOTE: dependency on state.recordedVideoUrl makes this run if URL changes and on unmount
   }, [state.recordedVideoUrl]);
