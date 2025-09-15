@@ -36,6 +36,16 @@ const RecordScreen = () => {
     await startRecording();
   };
 
+  // Handle Record Again
+  const recordAgain = async () => {
+    resetRecording();
+    await startRecording();
+
+    if (recordedVideoUrl && videoRef.current) {
+      videoRef.current.src = recordedVideoUrl;
+    }
+  };
+
   return (
     <div className="record">
       <button className="primary-btn" onClick={() => setIsOpen(true)}>
