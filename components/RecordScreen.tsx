@@ -6,6 +6,8 @@ import { ICONS } from "@/constants";
 import { useRouter } from "next/navigation";
 
 const RecordScreen = () => {
+  const router = useRouter(); // Route after recording
+
   const [isOpen, setIsOpen] = useState(false); // Open or Close Choose Dialogue Box
 
   const videoRef = useRef<HTMLVideoElement>(null); // Reference for the Video that is being recorded
@@ -14,7 +16,6 @@ const RecordScreen = () => {
     setIsOpen(false);
   };
 
-  const router = useRouter(); // Route after recording
   return (
     <div className="record">
       <button className="primary-btn" onClick={() => setIsOpen(true)}>
