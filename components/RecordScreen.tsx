@@ -73,6 +73,7 @@ const RecordScreen = () => {
             {/* Start Recording Button */}
             <section>
               {/* If the Recording is in Progress */}
+              {/* If we've a Recorded Video Show Video */}
               {isRecording ? (
                 <article>
                   <div className=""></div>
@@ -83,10 +84,22 @@ const RecordScreen = () => {
               ) : (
                 <p>Click record to start capturing your screen</p>
               )}
-              {/* If we've a Recorded Video Show Video */}
-              {/* If there is no Recording display Record Button */}
               {/* If the Recording is in Progress then Display Stop Recording */}
             </section>
+            {/* If there is no Recording display Record Button */}
+            <div className="record-box">
+              {!isRecording && !recordedVideoUrl && (
+                <button onClick={handleStart} className="record-start">
+                  <Image
+                    src={ICONS.record}
+                    alt="record"
+                    width={16}
+                    height={16}
+                  ></Image>
+                  Record
+                </button>
+              )}
+            </div>
           </div>
         </section>
       )}
