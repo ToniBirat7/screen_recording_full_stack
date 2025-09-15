@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, use, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import FormField from "@/components/FormField";
 import FileInput from "@/components/FileInput";
 import { useFileInput } from "@/lib/hooks/useFileInput";
@@ -32,6 +32,22 @@ const page = () => {
   useEffect(() => {
     if (video.duration != null) setVideoDuration(video.duration);
   }, [video.duration]);
+
+  // Extract the Blob Object URL from the session
+  useEffect(() => {
+    const checkForRecordedVideo = async () => {
+      try {
+        const blobUrl = sessionStorage.getItem("recordedVideoURL");
+        if (!blobUrl) return;
+
+        const { url, name, type, duration } = JSON.parse(blobUrl);
+        const blob = await fetch(url).then((res) => res.blob());
+        const file = new File([blob], name, { type, lastModified: Date.now() });
+      } catch (e) {
+        console.error(e, "Error loading recorded video");
+      }
+    };
+  }, [video]);
 
   // Router for Navigation
   const router = useRouter();
