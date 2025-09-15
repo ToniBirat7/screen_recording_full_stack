@@ -81,11 +81,9 @@ const VideoCard = ({
         ></Image>
       </button>
 
-      {duration && (
-        <div className="duration">
-          Duration : {Math.ceil(duration / 60)} min
-        </div>
-      )}
+      {duration ? (
+        <div className="duration">{Math.ceil(duration / 60)} min</div>
+      ) : null}
     </Link>
   );
 };

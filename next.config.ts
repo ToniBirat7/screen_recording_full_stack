@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "snapcast.b-cdn.net",
+        hostname: "biratcast-pull.b-cdn.net",
         port: "",
         pathname: "/thumbnails/**", // allow all paths
       },

@@ -194,7 +194,7 @@ const page = () => {
         videoId: videoID,
         thumbnailUrl: thumbnailCdnUrl,
         ...formData, // Spread the form data that contains title, descirption, visibility and etc
-        duration: video.duration,
+        duration: videoDuration,
       });
 
       console.log(`Upload to Database`);
