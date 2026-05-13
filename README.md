@@ -45,11 +45,13 @@ npm install
 ```
 
 ### Environment Variables
-Create a `.env.local` file in the project root:
+Create a `.env.local` (or `.env`) file in the project root:
 
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_BASE_URL` | Base URL for the app and Better Auth client |
+| `BETTER_AUTH_URL` | Base URL for Better Auth server-side callbacks |
+| `BETTER_AUTH_SECRET` | Secret used by Better Auth for signing/encryption |
 | `BETTER_AUTH_GOOGLE_CLIENT_ID` | Google OAuth client ID |
 | `BETTER_AUTH_GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
 | `ARCJET_API_KEY` | Arcjet API key |
