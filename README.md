@@ -61,6 +61,8 @@ Create a `.env.local` (or `.env`) file in the project root:
 | `XATA_API_KEY` | Xata API key used by the client |
 | `DATABASE_URL_POSTGRES` | Postgres connection string for Drizzle migrations |
 
+> Note: The app reads `BETTER_AUTH_GOOGLE_CLIENT_ID`, `BETTER_AUTH_GOOGLE_CLIENT_SECRET`, and `BUNNY_STREAM_ACCESS_API_KEY` as named above.
+
 ### Run Locally
 ```bash
 npm run dev
